@@ -1,3 +1,7 @@
+
+// Problem Link -> https://codeforces.com/contest/1901/problem/C
+
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -49,42 +53,44 @@ const int MOD = 1000000007;
 
 void super(int test)
 {
-    int n, m;
-    cin >> n>>m;
-    vector<int> a(n);
-    for(auto &x : a)
+    int n;
+    cin>>n;
+
+    int mi = 1e9;
+    int ma = 0;
+    for (int i = 0;i <n;i++){
+        int x;
         cin >> x;
-    string s;
-    cin >> s;
 
-    int left = 0;
-    int right = n - 1;
-    for (int i = 0; i < n - 1; i++)
-    {
-        if(s[i] == 'L'){
-            left++;
+        mi = min(mi, x);
+        ma = max(ma, x);
+    }
+
+    vector<int> ans;
+
+    while(mi != ma){
+        if(ma%2 == mi%2){
+            // take either 0 or 1
+            ans.push_back(0);
+        }
+        else if(ma%2 == 0){
+            ans.push_back(1);
+            mi++;
+            ma++;
         }
         else{
-            right--;
+            ans.push_back(0);
         }
+        ma /= 2;
+        mi /= 2;
     }
 
-    vector<int> ans(n);
-    ans[n - 1] = a[left] % m;
-
-    for (int i = n - 2; i >= 0;i--){
-        if(s[i] == 'L'){
-            ans[i] = (ans[i + 1] * a[--left]) % m;
-        }
-        else{
-            ans[i] = (ans[i + 1] * a[++right]) % m;
+    cout << ans.size() << endl;
+    if(ans.size() <= n){
+        for (int i = 0; i < ans.size();i++){
+            cout << ans[i] << " \n"[i == ans.size()-1];
         }
     }
-
-    for(auto &x : ans){
-        cout << x << " ";
-    }
-    cout << endl;
 }
 
 //------------------------- MAIN -------------------------------------

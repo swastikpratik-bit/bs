@@ -1,3 +1,5 @@
+// Problem Link -> https://codeforces.com/problemset/problem/1895/C
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -5,7 +7,7 @@ using namespace std;
 #define pb push_back
 #define ppb pop_back
 #define ff first
-#define ss second
+#define ss second 
 #define PI 3.141592653589793238462
 #define set_bits __builtin_popcountll
 #define leadingzero __builtin_clzll
@@ -49,34 +51,48 @@ const int MOD = 1000000007;
 
 void super(int test)
 {
-    int a , b, r;
-    cin >> a >> b >> r;
+    int n;
+    cin >> n;
 
-    // a > b (let)
-    int x = 0;
-    int f = 1;
-    if (b > a)
-        swap(a, b);
+    vector<string> a(n);
+    for (int i = 0; i < n;i++){
+        cin >> a[i];
+    }
 
-    for (int i = 60; i >= 0; i--){
-        bool A = (a & (1ll << i));
-        bool B = (b & (1ll << i));
+    map<int, int> m[6];
 
-        if(A != B){
-            if(f){
-                f = 0;
+    for (int i = 0; i < n;i++){
+        int sum = 0;
+        for (int j = 0; j < a[i].size();j++){
+            sum += (a[i][j] - '0');
+        }
+        m[a[i].size()][sum]++;
+    }
+
+    int ans = 0;
+    for (int i = 0; i < n;i++){
+        int sum = 0;
+        for (int j = 0; j < a[i].size(); j++){
+            sum += (a[i][j] - '0');
+        }
+
+        int sum2 = 0;
+        for (int j = 0; j < a[i].size(); j++){
+            sum2 += (a[i][j] - '0');
+            if(j + 1 > a[i].size() - j - 1){
+                ans += m[j + 1 - (int)a[i].size() + j + 1][2 * sum2 - sum];
             }
-            else{
-                if(!B && x + (1ll<<i) <= r){
-                    x += (1ll << i);
-                    a ^= (1ll << i);
-                    b ^= (1ll << i);
-                }
+        }
+        sum2 = 0;
+        for (int j = 0; j < a[i].size(); j++)
+        {
+            sum2 += (a[i][a[i].size()- 1 -j] - '0');
+            if(j + 1 > a[i].size() - j - 1){
+                ans += m[j + 1 - (int)a[i].size() + j + 1][2 * sum2 - sum];
             }
         }
     }
-
-    cout << (a - b) << endl;
+    cout << ans << endl;
 }
 
 //------------------------- MAIN -------------------------------------
@@ -87,7 +103,7 @@ int32_t main()
     cin.tie(NULL);
 
     int testcases = 1;
-    cin >> testcases;
+    // cin >> testcases;
 
     int test = 1;
     while (testcases--)

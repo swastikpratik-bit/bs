@@ -1,3 +1,5 @@
+// Problem Link -> https://codeforces.com/contest/1904/problem/C
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -49,41 +51,44 @@ const int MOD = 1000000007;
 
 void super(int test)
 {
-    int n;
-    cin >> n;
+    int n, k;
+    cin >> n >> k;
 
-    vector<int> a(n), b(n);
-    vector<pair<int, int>> sm(n); 
+    vector<int> a(n);
     for(auto &x : a)
         cin >> x;
-    for(auto &x : b)
-        cin >> x;
 
-    for (int i = 0; i < n;i++){
-        sm[i] = {a[i] + b[i], i};
+    if(k >= 3){
+        cout << 0 << endl;
+        return;
     }
 
-    sort(sm.rbegin(), sm.rend());
+    sort(a.begin(), a.end());
 
-    int f = 1;
+    int d = a[0];
+    for (int i = 1; i < n;i++){
+        d = min(d, a[i] - a[i - 1]);
+    }
 
-    for (int i = 0;i <n;i++){
-        if(i%2 == 0){
-            a[sm[i].second] -= 1;
-            b[sm[i].second] = 0;
+    if(k == 1){
+        cout << d << endl;
+        return;
+    }
+
+    for (int j = 0; j < n;j++){
+        for (int i = 0; i < j;i++){
+            int val = a[j] - a[i];
+            int pt = lower_bound(a.begin(), a.end(), val) - a.begin();
+            if(pt < n){
+                d = min(d, a[pt] - val);
+            }
+            if(pt > 0){
+                d = min(d, val - a[pt - 1]);
+            }
         }
-        else{
-            a[sm[i].second] = 0;
-            b[sm[i].second] -= 1;
-        }
     }
 
-    int A = 0, B = 0;
-    for (int i = 0; i < n;i++){
-        A += a[i];
-        B += b[i];
-    }
-    cout << (A - B) << endl;
+    cout << d << endl;
 }
 
 //------------------------- MAIN -------------------------------------
