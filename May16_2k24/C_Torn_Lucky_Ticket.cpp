@@ -91,6 +91,7 @@ void super(int test)
                 ans += m[j + 1 - (int)a[i].size() + j + 1][2 * sum2 - sum];
             }
         }
+        ans -= m[a[i].size()][sum];
     }
     cout << ans << endl;
 }
