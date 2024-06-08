@@ -1,4 +1,4 @@
-// Problem Link -> https://codeforces.com/contest/1660/problem/C
+// Problem Link -> https://codeforces.com/problemset/problem/1925/B
 
 #include <bits/stdc++.h>
 
@@ -49,29 +49,28 @@ const int MOD = 1000000007;
         * Use pen-copy > 
 */
 
-
-void super(int test)
+void super(int test, int totTest)
 {
-    string s;
-    cin >> s;
+    int x, n;
+    cin >> x >> n;
 
-    int n = s.size();
+    int mx = x / n;
 
-    vector<int> freq(26);
-
-    int got = 0;
-    for (int i = 0; i < n; i ++)
+    int ans = 0;
+    for (int i = 1; i * i <= x; i++)
     {
-        if (freq[s[i] - 'a']){
-            got += 2;
-            freq.assign(26, 0);
-        }
-        else{
-            freq[s[i] - 'a']++;
+        if(x%i== 0){
+            if(x/i >= n){
+                ans = max(ans, i);
+            }
+            // other = x / i;
+            if (i >= n){
+                ans = max(ans, x/i);
+            }
         }
     }
 
-    cout << n - got << endl;
+    cout << ans << endl;
 }
 
 //------------------------- MAIN -------------------------------------
@@ -83,11 +82,12 @@ int32_t main()
 
     int testcases = 1;
     cin >> testcases;
+    int totTest = testcases;
 
     int test = 1;
     while (testcases--)
     {
-        super(test++);
+        super(test++, totTest);
     }
 
     return 0;

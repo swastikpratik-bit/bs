@@ -67,7 +67,6 @@ void super(int test)
     for (int i = 1; i < n ; i++)
     {
         ans = max(ans, a[i] - a[i-1]);
-        // a[i] -= a[i - 1];
     }
     cout << ans << endl;
 }

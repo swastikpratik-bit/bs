@@ -1,4 +1,4 @@
-// Problem Link -> https://codeforces.com/contest/1660/problem/D
+// Problem Link -> 
 
 #include <bits/stdc++.h>
 
@@ -77,144 +77,52 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
         * Use pen-copy > 
 */
 
-vector<int> helper(vector<int> &b){
-    int m = b.size();
-    vector<int> left(m), right(m);
 
-    left[0] = b[0];
-    for (int i = 1; i < m; i++)
+map<int,int> mp;
+void primeFactors(int n) 
+{
+    while (n % 2 == 0)
     {
-        left[i] = left[i - 1] * b[i];
-    }
-
-    right[m - 1] = b[m - 1];
-    for (int i = m - 2; i >= 0;i--){
-        right[i] = right[i + 1] * b[i];
-    }
-
-    debug(left);
-    debug(right);
-
-
-    int m1 = 0, ind1 = -1, m2 = 0, ind2 = -1;
-    for (int i = 0;i < m; i++){
-        if(left[i] > m1){
-            m1 = left[i];
-            ind1 = i+ 1;
-        }
-        if(right[i] > m2){
-            m2 = right[i];
-            ind2 = i+ 1;
-        }
-    }
-
-    debug(m1);
-    debug(m2);
-    debug(ind1);
-    debug(ind2);
-    vector<int> ans;
-    if (m1 >= m2)
-    {
-        ans.push_back(0);
-        ans.push_back(m - ind1);
-        ans.push_back(m1);
-    }
-    else{
-        ans.push_back(ind2-1);
-        ans.push_back(0);
-        ans.push_back(m2);
-    }
-
-    return ans;
+        mp[2]++;
+        n = n / 2;
+    } 
+ 
+    for (int i = 3; i <= sqrt(n); i = i + 2) 
+    { 
+        while (n % i == 0) 
+        {
+            mp[i]++;
+            n = n / i;
+        } 
+    } 
+ 
+    if (n > 2)
+        mp[n]++;
 }
 
-void super(int test)
+
+void super(int test, int totTest)
 {
     int n;
     cin >> n;
 
-    vector<int> a(n);
-    int zero = 0;
-    for (auto &x : a){
+    for (int i = 0; i < n; i++)
+    {
+        int x;
         cin >> x;
-        zero += (x == 0);
+        primeFactors(x);
     }
 
-    if(zero == 1){
-        int ind = -1;
-        for (int i = 0; i < n;i++){
-            if(a[i] == 0){
-                ind = i;
-                break;
-            }
-        }
-
-        vector<int> xx;
-        for (int i = ind + 1; i < n; i++)
-        {
-            xx.push_back(a[i]);
-        }
-        vector<int> yy;
-        for (int i = 0; i < ind; i++)
-        {
-            yy.push_back(a[i]);
-        }
-
-        debug(xx);
-        debug(yy);
-
-        vector<int> ans1, ans2;
-        if(xx.size()> 0)
-            ans1 = helper(xx);
-        else
-            ans1.assign(3, 0);
-
-        
-        if(yy.size()> 0)
-            ans2 = helper(yy);
-        else
-            ans2.assign(3, 0);
-
-        if(ans1[2] >= ans2[2]){
-            cout << ans1[0] + ind + 1<< " " << ans1[1] << endl;
-        }
-        else{
-            cout << ans2[0]<< " " << ans2[1] - (n - ind)<< endl;
-        }
-        return;
+    int extra = 0;
+    int ans = 0;
+    for (auto &[x, y] : mp)
+    {
+        ans += y / 2;
+        extra += y % 2;
     }
 
-    if(zero > 1){
-        int ll = 1;
-        for (int i = 0; i < n;i++){
-            if(a[i] == 0)
-                break;
-            ll++;
-        }
-
-        int rr = 1;
-        for (int i = n - 1; i >= 0;i--){
-            if(a[i] == 0)
-                break;
-            rr++;
-        }
-
-        vector<int> xx;
-        for (int i = ll; i < n - rr;i++){
-            xx.push_back(a[i]);
-        }
-
-        debug(xx);
-
-        
-        vector<int> ans = helper(xx);
-    
-        cout << ans[0] + ll<< " " << ans[1] + rr<< endl;
-        return;
-    }
-    vector<int> ans = helper(a);
-    debug(ans)
-    cout << ans[0] << " " << ans[1] << endl;
+    ans += extra / 3;
+    cout << ans << endl;
 }
 
 //------------------------- MAIN -------------------------------------
@@ -226,11 +134,13 @@ int32_t main()
 
     int testcases = 1;
     cin >> testcases;
+    int totTest = testcases;
 
     int test = 1;
     while (testcases--)
     {
-        super(test++);
+        mp.clear();
+        super(test++, totTest);
     }
 
     return 0;

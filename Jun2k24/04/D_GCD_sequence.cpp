@@ -1,4 +1,4 @@
-// Problem Link -> https://codeforces.com/contest/1660/problem/D
+// Problem Link -> 
 
 #include <bits/stdc++.h>
 
@@ -28,6 +28,7 @@ typedef unsigned long long ull;
 typedef long double lld;
 
 const int MOD = 1000000007;
+
 //--------------------------------- DEBUGER ----------------------------------------
 
 #ifndef ONLINE_JUDGE
@@ -57,7 +58,6 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
-
 //------------------------------ SOLVE -------------------------------------
 /*
         --> READ PROPERLY (READ AGAIN)
@@ -76,145 +76,61 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
         * Don't Overthink about complexity >
         * Use pen-copy > 
 */
-
-vector<int> helper(vector<int> &b){
-    int m = b.size();
-    vector<int> left(m), right(m);
-
-    left[0] = b[0];
-    for (int i = 1; i < m; i++)
-    {
-        left[i] = left[i - 1] * b[i];
-    }
-
-    right[m - 1] = b[m - 1];
-    for (int i = m - 2; i >= 0;i--){
-        right[i] = right[i + 1] * b[i];
-    }
-
-    debug(left);
-    debug(right);
-
-
-    int m1 = 0, ind1 = -1, m2 = 0, ind2 = -1;
-    for (int i = 0;i < m; i++){
-        if(left[i] > m1){
-            m1 = left[i];
-            ind1 = i+ 1;
-        }
-        if(right[i] > m2){
-            m2 = right[i];
-            ind2 = i+ 1;
+bool check(vll &v, ll in){
+    vll temp;
+    for(int i =0 ;i < v.size();i++){
+        if(i!=in ){
+            temp.push_back(v[i]);
         }
     }
-
-    debug(m1);
-    debug(m2);
-    debug(ind1);
-    debug(ind2);
-    vector<int> ans;
-    if (m1 >= m2)
-    {
-        ans.push_back(0);
-        ans.push_back(m - ind1);
-        ans.push_back(m1);
+    ll g[temp.size()-1];
+    for(int i=0;i<temp.size()-1;i++){
+        g[i]=gcd(temp[i],temp[i+1]);
     }
-    else{
-        ans.push_back(ind2-1);
-        ans.push_back(0);
-        ans.push_back(m2);
+    if(is_sorted(g,g+v.size()-2)){
+        return true;
     }
-
-    return ans;
+    return false;
 }
 
-void super(int test)
+void super(int test, int totTest)
 {
     int n;
     cin >> n;
-
-    vector<int> a(n);
-    int zero = 0;
-    for (auto &x : a){
+    vector<int> v(n);
+    for(auto &x: v)
         cin >> x;
-        zero += (x == 0);
-    }
 
-    if(zero == 1){
-        int ind = -1;
-        for (int i = 0; i < n;i++){
-            if(a[i] == 0){
-                ind = i;
+    ll g[n-1];
+    for(int i=0;i<n-1;i++){
+        g[i]=gcd(v[i],v[i+1]);
+    }
+    if(is_sorted(g,g+n-1)){
+        cy;
+        return;
+    }
+    ll in=0;
+    for (int i = 0; i < n - 1;i++)
+        {
+            if (g[i] > g[i + 1])
+            {
+                in = i;
                 break;
             }
         }
-
-        vector<int> xx;
-        for (int i = ind + 1; i < n; i++)
-        {
-            xx.push_back(a[i]);
-        }
-        vector<int> yy;
-        for (int i = 0; i < ind; i++)
-        {
-            yy.push_back(a[i]);
-        }
-
-        debug(xx);
-        debug(yy);
-
-        vector<int> ans1, ans2;
-        if(xx.size()> 0)
-            ans1 = helper(xx);
-        else
-            ans1.assign(3, 0);
-
-        
-        if(yy.size()> 0)
-            ans2 = helper(yy);
-        else
-            ans2.assign(3, 0);
-
-        if(ans1[2] >= ans2[2]){
-            cout << ans1[0] + ind + 1<< " " << ans1[1] << endl;
-        }
-        else{
-            cout << ans2[0]<< " " << ans2[1] - (n - ind)<< endl;
-        }
+    if(check(v,in)){
+        cy;
         return;
     }
-
-    if(zero > 1){
-        int ll = 1;
-        for (int i = 0; i < n;i++){
-            if(a[i] == 0)
-                break;
-            ll++;
-        }
-
-        int rr = 1;
-        for (int i = n - 1; i >= 0;i--){
-            if(a[i] == 0)
-                break;
-            rr++;
-        }
-
-        vector<int> xx;
-        for (int i = ll; i < n - rr;i++){
-            xx.push_back(a[i]);
-        }
-
-        debug(xx);
-
-        
-        vector<int> ans = helper(xx);
-    
-        cout << ans[0] + ll<< " " << ans[1] + rr<< endl;
+    if(check(v,in+1)){
+         cy;
         return;
     }
-    vector<int> ans = helper(a);
-    debug(ans)
-    cout << ans[0] << " " << ans[1] << endl;
+    if(check(v,in+2)){
+         cy;
+        return;
+    }
+    cn;
 }
 
 //------------------------- MAIN -------------------------------------
@@ -226,11 +142,12 @@ int32_t main()
 
     int testcases = 1;
     cin >> testcases;
+    int totTest = testcases;
 
     int test = 1;
     while (testcases--)
     {
-        super(test++);
+        super(test++, totTest);
     }
 
     return 0;

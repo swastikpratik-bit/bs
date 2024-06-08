@@ -1,4 +1,4 @@
-// Problem Link -> https://codeforces.com/contest/1660/problem/D
+// Problem Link -> https://codeforces.com/problemset/problem/27/B
 
 #include <bits/stdc++.h>
 
@@ -77,144 +77,38 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
         * Use pen-copy > 
 */
 
-vector<int> helper(vector<int> &b){
-    int m = b.size();
-    vector<int> left(m), right(m);
-
-    left[0] = b[0];
-    for (int i = 1; i < m; i++)
-    {
-        left[i] = left[i - 1] * b[i];
-    }
-
-    right[m - 1] = b[m - 1];
-    for (int i = m - 2; i >= 0;i--){
-        right[i] = right[i + 1] * b[i];
-    }
-
-    debug(left);
-    debug(right);
-
-
-    int m1 = 0, ind1 = -1, m2 = 0, ind2 = -1;
-    for (int i = 0;i < m; i++){
-        if(left[i] > m1){
-            m1 = left[i];
-            ind1 = i+ 1;
-        }
-        if(right[i] > m2){
-            m2 = right[i];
-            ind2 = i+ 1;
-        }
-    }
-
-    debug(m1);
-    debug(m2);
-    debug(ind1);
-    debug(ind2);
-    vector<int> ans;
-    if (m1 >= m2)
-    {
-        ans.push_back(0);
-        ans.push_back(m - ind1);
-        ans.push_back(m1);
-    }
-    else{
-        ans.push_back(ind2-1);
-        ans.push_back(0);
-        ans.push_back(m2);
-    }
-
-    return ans;
-}
-
-void super(int test)
+void super(int test, int totTest)
 {
     int n;
     cin >> n;
-
-    vector<int> a(n);
-    int zero = 0;
-    for (auto &x : a){
-        cin >> x;
-        zero += (x == 0);
+ 
+    vector<vll> played(n, vll(n, false));
+    for (int i = 0; i < n; ++i) {
+        played[i][i] = true;
     }
-
-    if(zero == 1){
-        int ind = -1;
-        for (int i = 0; i < n;i++){
-            if(a[i] == 0){
-                ind = i;
-                break;
+ 
+    vll wins(n, 0);
+ 
+    int k = n * (n - 1) / 2;
+    for (int i = 0; i < k - 1; ++i) {
+        int x, y;
+        cin >> x >> y;
+        --x; --y;
+        played[x][y] = played[y][x] = true;
+        ++wins[x];
+    }
+ 
+    for (int i = 0; i < n; ++i) {
+        for (int j = i + 1; j < n; ++j) {
+            if (!played[i][j]) {
+                if (wins[i] >= wins[j]) {
+                    cout << i + 1 << ' ' << j + 1 << '\n';
+                } else {
+                    cout << j + 1 << ' ' << i + 1 << '\n';
+                }
             }
         }
-
-        vector<int> xx;
-        for (int i = ind + 1; i < n; i++)
-        {
-            xx.push_back(a[i]);
-        }
-        vector<int> yy;
-        for (int i = 0; i < ind; i++)
-        {
-            yy.push_back(a[i]);
-        }
-
-        debug(xx);
-        debug(yy);
-
-        vector<int> ans1, ans2;
-        if(xx.size()> 0)
-            ans1 = helper(xx);
-        else
-            ans1.assign(3, 0);
-
-        
-        if(yy.size()> 0)
-            ans2 = helper(yy);
-        else
-            ans2.assign(3, 0);
-
-        if(ans1[2] >= ans2[2]){
-            cout << ans1[0] + ind + 1<< " " << ans1[1] << endl;
-        }
-        else{
-            cout << ans2[0]<< " " << ans2[1] - (n - ind)<< endl;
-        }
-        return;
     }
-
-    if(zero > 1){
-        int ll = 1;
-        for (int i = 0; i < n;i++){
-            if(a[i] == 0)
-                break;
-            ll++;
-        }
-
-        int rr = 1;
-        for (int i = n - 1; i >= 0;i--){
-            if(a[i] == 0)
-                break;
-            rr++;
-        }
-
-        vector<int> xx;
-        for (int i = ll; i < n - rr;i++){
-            xx.push_back(a[i]);
-        }
-
-        debug(xx);
-
-        
-        vector<int> ans = helper(xx);
-    
-        cout << ans[0] + ll<< " " << ans[1] + rr<< endl;
-        return;
-    }
-    vector<int> ans = helper(a);
-    debug(ans)
-    cout << ans[0] << " " << ans[1] << endl;
 }
 
 //------------------------- MAIN -------------------------------------
@@ -225,12 +119,13 @@ int32_t main()
     cin.tie(NULL);
 
     int testcases = 1;
-    cin >> testcases;
+    // cin >> testcases;
+    int totTest = testcases;
 
     int test = 1;
     while (testcases--)
     {
-        super(test++);
+        super(test++, totTest);
     }
 
     return 0;

@@ -1,4 +1,4 @@
-// Problem Link -> https://codeforces.com/contest/1660/problem/C
+// Problem Link -> 
 
 #include <bits/stdc++.h>
 
@@ -49,29 +49,44 @@ const int MOD = 1000000007;
         * Use pen-copy > 
 */
 
-
-void super(int test)
+void super(int test, int totTest)
 {
-    string s;
-    cin >> s;
+    int n, k;
+    cin >> n >> k;
 
-    int n = s.size();
-
-    vector<int> freq(26);
-
-    int got = 0;
-    for (int i = 0; i < n; i ++)
-    {
-        if (freq[s[i] - 'a']){
-            got += 2;
-            freq.assign(26, 0);
-        }
-        else{
-            freq[s[i] - 'a']++;
-        }
+    vector<int> a(n);
+    for (int i = 0;i < n;i++){
+        cin >> a[i];
     }
 
-    cout << n - got << endl;
+    int ans = 0;
+    for (int i = 0; i < n; i++)
+    {
+        int t = a[i];
+        a[i] = 1;
+        int sum = 0;
+        for (int j = 0; j < n - 1; j++)
+        {
+            sum += abs(a[j] - a[j + 1]);
+        }
+        a[i] = t;
+        ans = max(ans, sum);
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        int t = a[i];
+        a[i] = k;
+        int sum = 0;
+        for (int j = 0; j < n - 1; j++)
+        {
+            sum += abs(a[j] - a[j + 1]);
+        }
+        a[i] = t;
+        ans = max(ans, sum);
+    }
+
+    cout << ans << endl;
 }
 
 //------------------------- MAIN -------------------------------------
@@ -83,11 +98,12 @@ int32_t main()
 
     int testcases = 1;
     cin >> testcases;
+    int totTest = testcases;
 
     int test = 1;
     while (testcases--)
     {
-        super(test++);
+        super(test++, totTest);
     }
 
     return 0;

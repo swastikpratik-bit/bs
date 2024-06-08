@@ -1,4 +1,4 @@
-// Problem Link -> https://codeforces.com/contest/1660/problem/C
+// Problem Link -> 
 
 #include <bits/stdc++.h>
 
@@ -29,6 +29,34 @@ typedef long double lld;
 
 const int MOD = 1000000007;
 
+//--------------------------------- DEBUGER ----------------------------------------
+
+#ifndef ONLINE_JUDGE
+#define debug(x)       \
+    cerr << #x << " "; \
+    _print(x);         \
+    cerr << endl;
+#else
+#define debug(x)
+#endif
+
+void _print(int t) {cerr << t;}
+void _print(string t) {cerr << t;}
+void _print(char t) {cerr << t;}
+void _print(lld t) {cerr << t;}
+void _print(double t) {cerr << t;}
+void _print(ull t) {cerr << t;}
+ 
+template <class T, class V> void _print(pair <T, V> p);
+template <class T> void _print(vector <T> v);
+template <class T> void _print(set <T> v);
+template <class T, class V> void _print(map <T, V> v);
+template <class T> void _print(multiset <T> v);
+template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.ff); cerr << ","; _print(p.ss); cerr << "}";}
+template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
 //------------------------------ SOLVE -------------------------------------
 /*
@@ -49,29 +77,13 @@ const int MOD = 1000000007;
         * Use pen-copy > 
 */
 
-
-void super(int test)
+void super(int test, int totTest)
 {
-    string s;
-    cin >> s;
+    int x, y;
+    cin >> x >> y;
 
-    int n = s.size();
-
-    vector<int> freq(26);
-
-    int got = 0;
-    for (int i = 0; i < n; i ++)
-    {
-        if (freq[s[i] - 'a']){
-            got += 2;
-            freq.assign(26, 0);
-        }
-        else{
-            freq[s[i] - 'a']++;
-        }
-    }
-
-    cout << n - got << endl;
+    int xx = x ^ y;
+    cout << (1ll << trailingzero(x ^ y)) << endl;
 }
 
 //------------------------- MAIN -------------------------------------
@@ -83,11 +95,12 @@ int32_t main()
 
     int testcases = 1;
     cin >> testcases;
+    int totTest = testcases;
 
     int test = 1;
     while (testcases--)
     {
-        super(test++);
+        super(test++, totTest);
     }
 
     return 0;

@@ -66,17 +66,13 @@ void super(int test)
     int ans = 0;
     int ind = -1;
     for (int i = 0; i < n; i++)
-    {
-        int x = abs(a[i] - b[m - n + i]);
-        int y = abs(a[i] - b[i]);
-      
+    {     
         if (abs(a[i] - b[m - n + i]) > abs(a[i] - b[i]))
         {
             ind = i;
             break;
         }
         ans += abs(a[i] - b[i]);
-        
     }
     
     

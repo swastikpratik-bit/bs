@@ -1,4 +1,4 @@
-// Problem Link -> https://codeforces.com/contest/1660/problem/C
+// Problem Link -> 
 
 #include <bits/stdc++.h>
 
@@ -49,29 +49,45 @@ const int MOD = 1000000007;
         * Use pen-copy > 
 */
 
-
-void super(int test)
+vector<int> divisors(int n) 
 {
-    string s;
-    cin >> s;
-
-    int n = s.size();
-
-    vector<int> freq(26);
-
-    int got = 0;
-    for (int i = 0; i < n; i ++)
-    {
-        if (freq[s[i] - 'a']){
-            got += 2;
-            freq.assign(26, 0);
-        }
-        else{
-            freq[s[i] - 'a']++;
+    vector<int> div;
+    for (int i = 1; i * i <= n;i++){
+        if(n%i== 0){
+            div.push_back(i);
+            if((n/i) != i){
+                div.push_back(n / i);
+            }
         }
     }
+    sort(div.begin(), div.end());
+    return div;
+}
 
-    cout << n - got << endl;
+
+void super(int test, int totTest)
+{
+    int n, k;
+    cin >> n >> k;
+
+    int ans = n;
+    // for (int i = 1; i <= k; i++)
+    // {
+    //     if(n%i == 0){
+    //         if(i <= k)ans = min(ans, n / i);
+    //         if(i != n/i){
+    //             if(n/i <= k)ans = min(ans, i);
+    //         }
+    //     }
+    // }
+
+    vector<int> div = divisors(n);
+
+    for(auto &x : div){
+        if(x <= k)
+            ans = min(ans, n / x);
+    }
+    cout << ans << endl;
 }
 
 //------------------------- MAIN -------------------------------------
@@ -83,11 +99,12 @@ int32_t main()
 
     int testcases = 1;
     cin >> testcases;
+    int totTest = testcases;
 
     int test = 1;
     while (testcases--)
     {
-        super(test++);
+        super(test++, totTest);
     }
 
     return 0;

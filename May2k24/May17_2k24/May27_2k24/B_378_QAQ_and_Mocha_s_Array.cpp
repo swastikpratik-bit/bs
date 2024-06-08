@@ -1,4 +1,4 @@
-// Problem Link -> https://codeforces.com/contest/1660/problem/C
+// Problem Link -> 
 
 #include <bits/stdc++.h>
 
@@ -48,33 +48,42 @@ const int MOD = 1000000007;
         * Don't Overthink about complexity >
         * Use pen-copy > 
 */
+    int times = 1;
 
 
-void super(int test)
+void super(int test, int totTest)
 {
-    string s;
-    cin >> s;
+    int n;
+    cin >> n;
 
-    int n = s.size();
-
-    vector<int> freq(26);
-
-    int got = 0;
-    for (int i = 0; i < n; i ++)
+    vector<int> a(n) , b;
+    int mn = 1e9;
+    for (int i = 0; i < n; i++)
     {
-        if (freq[s[i] - 'a']){
-            got += 2;
-            freq.assign(26, 0);
-        }
-        else{
-            freq[s[i] - 'a']++;
+        cin >> a[i];
+        mn = min(mn, a[i]);
+    }
+
+    int mn2 = 1e9;
+    for (int i = 0; i < n; i++)
+    {
+        if(a[i]%mn != 0){
+            b.push_back(a[i]);
+            mn2 = min(a[i], mn2);
         }
     }
 
-    cout << n - got << endl;
+    for (int i = 0; i < b.size();i ++){
+        if(b[i]%mn2 != 0){
+            cout << "No" << endl;
+            return;
+        }
+    }
+    cout << "Yes" << endl;
 }
 
 //------------------------- MAIN -------------------------------------
+
 int32_t main()
 {
 
@@ -83,11 +92,13 @@ int32_t main()
 
     int testcases = 1;
     cin >> testcases;
+    times++;
+    int totTest = testcases;
 
     int test = 1;
     while (testcases--)
     {
-        super(test++);
+        super(test++, totTest);
     }
 
     return 0;

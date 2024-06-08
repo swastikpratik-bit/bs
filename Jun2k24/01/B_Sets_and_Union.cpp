@@ -1,4 +1,4 @@
-// Problem Link -> https://codeforces.com/contest/1660/problem/C
+// Problem Link -> https://codeforces.com/problemset/problem/1882/B
 
 #include <bits/stdc++.h>
 
@@ -49,29 +49,50 @@ const int MOD = 1000000007;
         * Use pen-copy > 
 */
 
-
-void super(int test)
+void super(int test, int totTest)
 {
-    string s;
-    cin >> s;
+    int n;
+    cin >> n;
 
-    int n = s.size();
-
-    vector<int> freq(26);
-
-    int got = 0;
-    for (int i = 0; i < n; i ++)
+    set<int> tot;
+    vector<vector<int>> Allsets;
+    map<int, int> freq;
+    map<int, vector<int>> ind;
+    for (int i = 0; i < n; i++)
     {
-        if (freq[s[i] - 'a']){
-            got += 2;
-            freq.assign(26, 0);
+        int sz;
+        cin >> sz;
+        vector<int> tt(sz);
+        for (int j = 0; j < sz; j++){
+            int x;
+            cin >> x;
+
+            tt.push_back(x);
+            freq[x]++;
+            tot.insert(x);
+            ind[x].push_back(i);
         }
-        else{
-            freq[s[i] - 'a']++;
-        }
+        Allsets.push_back(tt);
     }
 
-    cout << n - got << endl;
+    int ans = 0;
+
+    for(auto &x : tot){
+        set<int> t2 = tot;
+        map<int, int> curfreq = freq;
+
+        for (int i = 0; i < ind[x].size();i++){
+            for (int j = 0; j < (int)Allsets[ind[x][i]].size();j++){
+                curfreq[Allsets[ind[x][i]][j]]--;
+                if(curfreq[Allsets[ind[x][i]][j]] == 0){
+                    t2.erase(Allsets[ind[x][i]][j]);
+                }
+            }
+        }
+        ans = max(ans, (int)t2.size());
+    }
+
+    cout << ans << endl;
 }
 
 //------------------------- MAIN -------------------------------------
@@ -83,11 +104,12 @@ int32_t main()
 
     int testcases = 1;
     cin >> testcases;
+    int totTest = testcases;
 
     int test = 1;
     while (testcases--)
     {
-        super(test++);
+        super(test++, totTest);
     }
 
     return 0;

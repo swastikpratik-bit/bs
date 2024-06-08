@@ -1,4 +1,4 @@
-// Problem Link -> https://codeforces.com/contest/1660/problem/C
+// Problem Link -> https://codeforces.com/contest/1602/problem/C
 
 #include <bits/stdc++.h>
 
@@ -49,29 +49,44 @@ const int MOD = 1000000007;
         * Use pen-copy > 
 */
 
-
-void super(int test)
+void super(int test, int totTest)
 {
-    string s;
-    cin >> s;
+    int n;
+    cin>>n;
 
-    int n = s.size();
+    vector<int> a(n);
+    for(auto &x : a)
+        cin >> x;
 
-    vector<int> freq(26);
+    vector<int> freq(32);
 
-    int got = 0;
-    for (int i = 0; i < n; i ++)
-    {
-        if (freq[s[i] - 'a']){
-            got += 2;
-            freq.assign(26, 0);
-        }
-        else{
-            freq[s[i] - 'a']++;
+    for (int bit = 0; bit < 32;bit++){
+        for (int i = 0; i < n; i++)
+        {
+            if(a[i] & (1ll << bit))
+                freq[bit]++;
         }
     }
 
-    cout << n - got << endl;
+    vector<int> ans;
+    for (int k = 1; k <= n; k++)
+    {
+        int good = 1;
+        for (int bit = 0; bit < 32; bit++)
+        {
+            if(freq[bit]%k != 0){
+                good = 0;
+                break;
+            }
+        }
+        if(good)
+            ans.push_back(k);
+    }
+
+    for(auto &x : ans){
+        cout << x << " ";
+    }
+    cout << endl;
 }
 
 //------------------------- MAIN -------------------------------------
@@ -83,11 +98,12 @@ int32_t main()
 
     int testcases = 1;
     cin >> testcases;
+    int totTest = testcases;
 
     int test = 1;
     while (testcases--)
     {
-        super(test++);
+        super(test++, totTest);
     }
 
     return 0;

@@ -1,4 +1,4 @@
-// Problem Link -> https://codeforces.com/contest/1660/problem/C
+// Problem Link -> https://codeforces.com/problemset/problem/96/B
 
 #include <bits/stdc++.h>
 
@@ -49,29 +49,27 @@ const int MOD = 1000000007;
         * Use pen-copy > 
 */
 
-
-void super(int test)
+set<int> st;
+void helper(int N, int n ,int seven, int four)
 {
-    string s;
-    cin >> s;
-
-    int n = s.size();
-
-    vector<int> freq(26);
-
-    int got = 0;
-    for (int i = 0; i < n; i ++)
+    if(N > 1e10)
+        return;
+    if (four == seven && N >= n)
     {
-        if (freq[s[i] - 'a']){
-            got += 2;
-            freq.assign(26, 0);
-        }
-        else{
-            freq[s[i] - 'a']++;
-        }
+        st.insert(N);
     }
 
-    cout << n - got << endl;
+    helper(N * 10 + 4,n, seven, four + 1);
+    helper(N * 10 + 7, n,seven + 1, four);
+}
+
+void super(int test, int totTest)
+{
+    int n;
+    cin >> n;
+
+    helper(0, n,0, 0);
+    cout << *min_element(all(st)) << endl;
 }
 
 //------------------------- MAIN -------------------------------------
@@ -82,12 +80,13 @@ int32_t main()
     cin.tie(NULL);
 
     int testcases = 1;
-    cin >> testcases;
+    // cin >> testcases;
+    int totTest = testcases;
 
     int test = 1;
     while (testcases--)
     {
-        super(test++);
+        super(test++, totTest);
     }
 
     return 0;
