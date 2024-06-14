@@ -51,13 +51,51 @@ const int MOD = 1000000007;
 
 void super(int test, int totTest)
 {
-    int a, b, c;
-    cin >> a >> b >> c;
+    int N, K, Q;
+    cin >> N >> K >> Q;
 
-    double res = a / (double)b;
+    vector<int> A(K+ 1), B(K+ 1);
+    A.push_back(0);
+    B.push_back(0);
 
-    
+    for (int i = 1; i <= K;i++){
+        cin >> A[i];
+    }
+    for (int i = 1; i <= K;i++){
+        cin >> B[i];
+    }
+    vector<int> ans;
+    for (int i = 0; i < Q; i++)
+    {
+        int D;
+        cin >> D;
+
+        int l = 0, r = K;
+        while(l <= r)
+        {
+            int mid = l+r>>1;
+            if(A[mid] > D)
+            {
+                r = mid-1;
+            }
+            else
+            {
+                l = mid+1;
+            }
+        }
+        int it = r;
+        if(A[it] == D){
+            ans.push_back(B[it]);
+            cout << B[it] << " ";
+        }
+        else{
+           
+            cout << B[it] + (D - A[it])*(B[it + 1 ]- B[it])/(A[it + 1]-A[it]) << " ";
+        }
+    }
+    cout << endl;
 }
+
 
 //------------------------- MAIN -------------------------------------
 int32_t main()
@@ -67,7 +105,7 @@ int32_t main()
     cin.tie(NULL);
 
     int testcases = 1;
-    // cin >> testcases;
+    cin >> testcases;
     int totTest = testcases;
 
     int test = 1;

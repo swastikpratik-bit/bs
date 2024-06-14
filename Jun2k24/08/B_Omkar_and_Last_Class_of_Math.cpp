@@ -51,12 +51,22 @@ const int MOD = 1000000007;
 
 void super(int test, int totTest)
 {
-    int a, b, c;
-    cin >> a >> b >> c;
+    int n;
+    cin>>n;
 
-    double res = a / (double)b;
+    int a = 0;
+    for (int i = 2; i <= 1e5;i++){
+        if(n%i == 0){
+            a = i;
+            break;
+        }
+    }
 
-    
+    if(a == 0){
+        a = n;
+    }
+    cout << a << endl;
+    cout << n / a << " " << (n - n / a) << endl;
 }
 
 //------------------------- MAIN -------------------------------------
@@ -67,7 +77,7 @@ int32_t main()
     cin.tie(NULL);
 
     int testcases = 1;
-    // cin >> testcases;
+    cin >> testcases;
     int totTest = testcases;
 
     int test = 1;

@@ -51,12 +51,28 @@ const int MOD = 1000000007;
 
 void super(int test, int totTest)
 {
-    int a, b, c;
-    cin >> a >> b >> c;
-
-    double res = a / (double)b;
-
-    
+    int n, m;
+        cin >> {n >> m;
+        vector<vector<char>> grid(n, vector<char>(m));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                cin >> grid[i][j];
+            }
+        }
+        int xx = n, XX = 0, yy = m, YY = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] == '#') {
+                    xx = min(xx, i);
+                    XX = max(XX, i);
+                    yy = min(yy, j);
+                    YY = max(YY, j);
+                }
+            }
+        }
+        int h = (xx + XX) / 2;
+        int k = (yy + YY) / 2;
+        cout << h + 1 <}< " " << k + 1 << "\n";
 }
 
 //------------------------- MAIN -------------------------------------
@@ -67,7 +83,7 @@ int32_t main()
     cin.tie(NULL);
 
     int testcases = 1;
-    // cin >> testcases;
+    cin >> testcases;
     int totTest = testcases;
 
     int test = 1;

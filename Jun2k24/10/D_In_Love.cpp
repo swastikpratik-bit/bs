@@ -51,12 +51,39 @@ const int MOD = 1000000007;
 
 void super(int test, int totTest)
 {
-    int a, b, c;
-    cin >> a >> b >> c;
+    int Q;
+    cin >> Q;
 
-    double res = a / (double)b;
+    multiset<int> S, E;
+    for (int i = 0; i < Q;i++){
+        char sign;
+        int s, e;
+        cin >> sign >> s >> e;
+        if(sign == '+'){
+            S.insert(s);
+            E.insert(e);
+        }
+        else{
+            S.erase(S.lower_bound(s));
+            E.erase(E.lower_bound(e));
+        }
 
-    
+        if(S.empty()){
+            cout << "NO" << endl;
+        }
+        else{
+            auto end = E.begin();
+            auto start = S.end();
+            start--;
+
+            if(*start > *end){
+                cout << "YES" << endl;
+            }
+            else{
+                cout << "NO" << endl;
+            }
+        }
+    }
 }
 
 //------------------------- MAIN -------------------------------------

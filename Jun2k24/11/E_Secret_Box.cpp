@@ -49,37 +49,59 @@ const int MOD = 1000000007;
         * Use pen-copy > 
 */
 
-vector<int> divisors(int n) 
-{
-    vector<int> div;
-    for (int i = 1; i * i <= n;i++){
-        if(n%i== 0){
-            div.push_back(i);
-            if((n/i) != i){
-                div.push_back(n / i);
-            }
-        }
-    }
-    sort(div.begin(), div.end());
-    return div;
+int MA(vector<int> A){
+    int val = A[1] - A[0] + 1;
+    val *= A[3] - A[2] + 1;
+    val *= A[5] - A[4] + 1;
+    return val;
 }
-
 
 void super(int test, int totTest)
 {
-    int n, k;
-    cin >> n >> k;
+    int x, y, z, k;
+    cin >> x >> y >> z >> k;
 
-    int ans = n;
-    vector<int> div = divisors(n);
+    int ans = 0;
 
-    for(auto &x : div){
-        if(x <= k)
-            ans = min(ans, n / x);
+    
+    for (int a = 1; a*a*a <= k; a++) {
+        if (k % a == 0) {
+            for (int b = 1; b*b <= k / a; b++) {
+                if ((k / a) % b == 0) {
+                    int c = k / (a * b);
+                    if (a <= x && b <= y && c <= z) {
+                        vector<int> cur = {a, x, b, y, c, z};
+                        ans = max(ans, MA(cur));
+                    }
+                    if (b <= x && a <= y && c <= z) {
+                        vector<int> cur = {b, x, a, y, c, z};
+                            ans = max(ans, MA(cur));
+                    }
+                    if (b <= x && c <= y && a <= z) {
+                        vector<int> cur = {b, x, c, y, a, z};
+                                ans = max(ans, MA(cur));
+
+                    }
+                    if (c <= x && b <= y && a <= z) {
+                        vector<int> cur = {c, x, b, y, a, z};
+                        ans = max(ans, MA(cur));
+                    }
+                    if (a <= x && c <= y && b <= z) {
+                        vector<int> cur = {a, x, c, y, b, z};
+                        ans = max(ans, MA(cur));
+                    }
+                    if (c <= x && a <= y && b <= z) {
+                        vector<int> cur = {c, x, a, y, b, z};
+                            ans = max(ans, MA(cur));
+
+                    }
+                }
+            }
+        }
     }
+
     cout << ans << endl;
 }
-
 //------------------------- MAIN -------------------------------------
 int32_t main()
 {

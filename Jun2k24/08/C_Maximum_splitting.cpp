@@ -49,14 +49,64 @@ const int MOD = 1000000007;
         * Use pen-copy > 
 */
 
+bool isPrime(int n)
+{
+    if (n <= 1)
+    {
+        return false;
+    }
+    for (int i = 2; i * i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+vector<int> divisors(int n) 
+{
+    vector<int> div;
+    for (int i = 1; i * i <= n;i++){
+        if(n%i== 0){
+            div.push_back(i);
+            if((n/i) != i){
+                div.push_back(n / i);
+            }
+        }
+    }
+    sort(div.begin(), div.end());
+    return div;
+}
+
 void super(int test, int totTest)
 {
-    int a, b, c;
-    cin >> a >> b >> c;
+    vector<int> ans(16, -1), val = {4,6,9};
+    ans[0] = 0;
+    for (int i = 1; i < 16;i++){
+        for (int j = 0; j < 3;j++){
+            if(i >= val[j] && ans[i - val[j]] != -1){
+                ans[i] = max(ans[i], ans[i - val[j]] + 1);
+            }
+        }
+    }
 
-    double res = a / (double)b;
+    int n;
+    cin >> n;
 
-    
+    for (int i = 0; i < n;i++){
+        int x;
+        cin >> x;
+
+        if(x < 16){
+            cout << ans[x] << endl;
+        }
+        else{
+            int cur = (x - 16) / 4 + 1;
+            cout << cur + ans[x - 4 * cur] << endl;
+        }
+    }
 }
 
 //------------------------- MAIN -------------------------------------

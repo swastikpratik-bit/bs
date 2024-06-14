@@ -54,9 +54,24 @@ void super(int test, int totTest)
     int a, b, c;
     cin >> a >> b >> c;
 
-    double res = a / (double)b;
-
-    
+    map<int, bool> got;
+    // a/b
+    int digit = 1;
+    while (1)
+    {
+        a *= 10;
+        if(got[a])
+            break;
+        got[a] = true;
+        int cur = a / b;
+        a %= b;
+        if(cur == c){
+            cout << digit << endl;
+            return;
+        }
+        digit++;
+    }
+    cout << -1 << endl;
 }
 
 //------------------------- MAIN -------------------------------------

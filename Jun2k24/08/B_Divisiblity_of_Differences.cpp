@@ -51,12 +51,28 @@ const int MOD = 1000000007;
 
 void super(int test, int totTest)
 {
-    int a, b, c;
-    cin >> a >> b >> c;
+    int n, k, m;
+    cin>>n>>k>>m;
 
-    double res = a / (double)b;
+    map<int, vector<int>> mp;
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        mp[x % m].push_back(x);
+    }
 
-    
+    for (auto &x : mp){
+        if(x.second.size() >= k){
+            cout << "Yes" << endl;
+            for (int i = 0; i < k; i++)
+            {
+                cout << x.second[i] << " \n"[i == k - 1];
+            }
+            return;
+        }
+    }
+    cout << "No" << endl;
 }
 
 //------------------------- MAIN -------------------------------------

@@ -49,14 +49,64 @@ const int MOD = 1000000007;
         * Use pen-copy > 
 */
 
+bool helper(int mid, vector<int> &A , int target){
+    int one = (mid + 1) / 2;
+    int two = mid - one;
+
+    int needOne = 0;
+
+    for(auto &x : A){
+        int cur = (target - x) / 2;
+        if((target - x )%2 == 1){
+            needOne++;
+        }
+
+        if(two >= cur){
+            two -= cur;
+        }
+        else{
+            cur -= two;
+            two = 0;
+            needOne += cur * 2;
+        }
+    }
+
+    return needOne <= one;
+}
+
+int bs(int target , vector<int> &A){
+    int low = 0, high = 1e18;
+    int ans = 0;
+    while (high >= low)
+    {
+        int mid = (high + low) >> 1;
+
+        if(helper(mid , A , target)){
+            ans = mid;
+            high = mid - 1;
+        }
+        else{
+            low = mid + 1;
+        }
+    }
+
+    return ans;
+}
+
 void super(int test, int totTest)
 {
-    int a, b, c;
-    cin >> a >> b >> c;
-
-    double res = a / (double)b;
+    int N;
+    cin >> N;
 
     
+    vector<int> A(N);
+    int target = 0;
+    for (int i = 0; i < N;i ++){
+        cin >> A[i];
+        target = max(target, A[i]);
+    }
+
+    cout <<min(bs(target , A) , bs(target + 1, A)) << endl;
 }
 
 //------------------------- MAIN -------------------------------------
@@ -67,7 +117,7 @@ int32_t main()
     cin.tie(NULL);
 
     int testcases = 1;
-    // cin >> testcases;
+    cin >> testcases;
     int totTest = testcases;
 
     int test = 1;

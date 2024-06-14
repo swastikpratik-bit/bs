@@ -48,15 +48,52 @@ const int MOD = 1000000007;
         * Don't Overthink about complexity >
         * Use pen-copy > 
 */
+vector<bool> prime(1e5 + 1, 1);
+vector<int> primes;
+void PrimesTillN(int n)
+{
+    prime[0] = prime[1] = 0;
+    for (int i = 2; i * i <= n; i++)
+    {
+        if (prime[i])
+        {
+            for (int j = i * i; j <= n; j += i)
+                prime[j] = 0;
+        }
+    }
 
+    for (int i = 2; i <= 1e5;i++){
+        if(prime[i])primes.push_back(i);
+    }
+}
 void super(int test, int totTest)
 {
-    int a, b, c;
-    cin >> a >> b >> c;
+    int n;
+    cin >> n;
 
-    double res = a / (double)b;
+    if(n <= 37){
+        cout << "NO" << endl;
+        return;
+    }
 
-    
+    int a = 4;
+    n -= a;
+    for (auto b : primes)
+    {
+        int rem = n - b * b;
+        if(rem <= 0)
+            break;
+
+        int c = sqrt(rem);
+        if((c*c != rem) || (c == a) || (!prime[c]) || (c == 2)){
+            
+        }
+        else{
+            cout << "YES" << endl;
+            return;
+        }
+    }
+    cout << "NO" << endl;
 }
 
 //------------------------- MAIN -------------------------------------
@@ -67,9 +104,9 @@ int32_t main()
     cin.tie(NULL);
 
     int testcases = 1;
-    // cin >> testcases;
+    cin >> testcases;
     int totTest = testcases;
-
+    PrimesTillN(1e5);
     int test = 1;
     while (testcases--)
     {

@@ -49,34 +49,16 @@ const int MOD = 1000000007;
         * Use pen-copy > 
 */
 
-vector<int> divisors(int n) 
-{
-    vector<int> div;
-    for (int i = 1; i * i <= n;i++){
-        if(n%i== 0){
-            div.push_back(i);
-            if((n/i) != i){
-                div.push_back(n / i);
-            }
-        }
-    }
-    sort(div.begin(), div.end());
-    return div;
-}
-
-
 void super(int test, int totTest)
 {
-    int n, k;
-    cin >> n >> k;
+    int X, Y;
+    cin >> X >> Y;
 
-    int ans = n;
-    vector<int> div = divisors(n);
+    int dist = 10 * X;
 
-    for(auto &x : div){
-        if(x <= k)
-            ans = min(ans, n / x);
-    }
+    int rem = (10 * Y )- (10 * X);
+
+    int ans = (rem + 100 - (Y + 1)) / (100 - Y);
     cout << ans << endl;
 }
 

@@ -51,12 +51,16 @@ const int MOD = 1000000007;
 
 void super(int test, int totTest)
 {
-    int a, b, c;
-    cin >> a >> b >> c;
-
-    double res = a / (double)b;
-
-    
+    int A;
+    cin >> A;
+    int B = 2 * A;
+    int C = A * A;
+    if (A == 2)
+    {
+        B = 4;
+        C = 8;
+    }
+    cout << B << " " << C << endl;
 }
 
 //------------------------- MAIN -------------------------------------
@@ -67,7 +71,7 @@ int32_t main()
     cin.tie(NULL);
 
     int testcases = 1;
-    // cin >> testcases;
+    cin >> testcases;
     int totTest = testcases;
 
     int test = 1;

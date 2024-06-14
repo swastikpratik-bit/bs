@@ -51,12 +51,39 @@ const int MOD = 1000000007;
 
 void super(int test, int totTest)
 {
-    int a, b, c;
-    cin >> a >> b >> c;
+    string s;
+    cin >> s;
 
-    double res = a / (double)b;
+    int n = s.size();
 
-    
+    int i = 0;
+    vector<int> cnt;
+    int cur = 0;
+    int Bcnt = 0;
+    while (i < n)
+    {
+        if(s[i] == 'A')
+            cur++;
+        else{
+            Bcnt++;
+            cnt.push_back(cur);
+            cur = 0;
+
+            if (i < n - 1 && s[i + 1] == 'B')
+                Bcnt++;
+            while (i < n && s[i] == 'B')
+                i++;
+            i--;
+        }
+        i++;
+    }
+    cnt.push_back(cur);
+    sort(rall(cnt));
+    int ans = 0;
+    for (int i = 0; i < min(Bcnt, (int)cnt.size());i++){
+        ans += cnt[i];
+    }
+    cout << ans << endl;
 }
 
 //------------------------- MAIN -------------------------------------
@@ -67,7 +94,7 @@ int32_t main()
     cin.tie(NULL);
 
     int testcases = 1;
-    // cin >> testcases;
+    cin >> testcases;
     int totTest = testcases;
 
     int test = 1;

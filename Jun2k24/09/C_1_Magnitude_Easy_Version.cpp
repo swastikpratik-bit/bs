@@ -51,12 +51,23 @@ const int MOD = 1000000007;
 
 void super(int test, int totTest)
 {
-    int a, b, c;
-    cin >> a >> b >> c;
+    int n;
+    cin >> n;
 
-    double res = a / (double)b;
+    vector<int> a(n);
+    for (auto &x : a)
+        cin >> x;
 
+    int ans = 0;
+    int mi = 0;
     
+    for (int i = 0; i < n; i++)
+    {
+        ans += a[i];
+        mi = min(mi, ans);
+    }
+
+    cout << ans - 2 * mi<< endl;
 }
 
 //------------------------- MAIN -------------------------------------
@@ -67,7 +78,7 @@ int32_t main()
     cin.tie(NULL);
 
     int testcases = 1;
-    // cin >> testcases;
+    cin >> testcases;
     int totTest = testcases;
 
     int test = 1;

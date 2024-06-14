@@ -51,12 +51,29 @@ const int MOD = 1000000007;
 
 void super(int test, int totTest)
 {
-    int a, b, c;
-    cin >> a >> b >> c;
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+    const int MAX = 1e5;
+    vector<int> cnt(MAX);
+    for (int i = 0; i < n; i++)
+    {
+        int a, b;
+        cin >> a >> b;
 
-    double res = a / (double)b;
+        int val = (s[i] - '0');
+        for (int j = 0; j < MAX; j++)
+        {
+            cnt[j] += val;
+            if(j == b){
+                val ^= 1;
+                b += a;
+            }
+        }
+    }
 
-    
+    cout << *max_element(all(cnt)) << endl;
 }
 
 //------------------------- MAIN -------------------------------------

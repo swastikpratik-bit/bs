@@ -51,12 +51,36 @@ const int MOD = 1000000007;
 
 void super(int test, int totTest)
 {
-    int a, b, c;
-    cin >> a >> b >> c;
+    int n;
+    cin >> n;
 
-    double res = a / (double)b;
+    map<int, int> mp;
+    vector<int> a(n);
 
+
+    for (int i = 0;i <n; i++){
+        cin >> a[i];
+        mp[a[i]]++;
+    }
     
+    if(mp.size() == 1){
+        cout << "NO" << endl;
+    }
+    else{
+        cout << "YES" << endl;
+        int f = 1;
+        for (int i = 0; i < n ; i++)
+        {
+            if((mp[a[i]] > 1 && f) || (mp.size() == n && f) ){
+                cout << 'B';
+                f = 0;
+            }
+            else{
+                cout << 'R';
+            }
+        }
+        cout<< endl;
+    }
 }
 
 //------------------------- MAIN -------------------------------------
@@ -67,7 +91,7 @@ int32_t main()
     cin.tie(NULL);
 
     int testcases = 1;
-    // cin >> testcases;
+    cin >> testcases;
     int totTest = testcases;
 
     int test = 1;
